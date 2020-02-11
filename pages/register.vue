@@ -9,18 +9,20 @@
           </p>
 
           <ul class="error-messages">
-            <li>That email is already taken</li>
+            <li v-for="(item,key,index) in errors" :key="index">
+              {{key}}:{{item[0]}}
+            </li>
           </ul>
 
-          <form>
+          <form @submit.prevent="onRegister">
             <fieldset class="form-group">
-              <input class="form-control form-control-lg" type="text" placeholder="Your Name" />
+              <input v-model="user.username" class="form-control form-control-lg" type="text" placeholder="Your Name" />
             </fieldset>
             <fieldset class="form-group">
-              <input class="form-control form-control-lg" type="text" placeholder="Email" />
+              <input v-model="user.email" class="form-control form-control-lg" type="text" placeholder="Email" />
             </fieldset>
             <fieldset class="form-group">
-              <input class="form-control form-control-lg" type="password" placeholder="Password" />
+              <input v-model="user.password" class="form-control form-control-lg" type="password" placeholder="Password" />
             </fieldset>
             <button class="btn btn-lg btn-primary pull-xs-right">Sign up</button>
           </form>
@@ -31,15 +33,40 @@
 </template>
 
 <script>
+import { register } from '@/api/user.js'
 export default {
+  middleware: 'notAuthenticated',
   name: "RegisterPage",
+  asyncData() {
+    return {
+      user:{
+        username: '',
+        email: '',
+        password: ''
+      },
+      errors:{}
+    }
+  },
   data() {
-    return {};
+    return {}
   },
   props: {},
   components: {},
   computed: {},
-  methods: {},
+  methods: {
+    async onRegister (){
+      const user = this.user
+      try {
+        const { data } = await register({
+          user
+        })
+        this.errors = {}
+        this.$router.push('/')
+      } catch (err) {
+        this.errors = err.response.data.errors
+      }
+    }
+  },
   watch: {},
   created() {},
   mounted() {}

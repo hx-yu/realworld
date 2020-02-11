@@ -84,7 +84,7 @@
 export default {
   name: "ProfilePage",
   data() {
-    return {};
+    return {}
   },
   props: {},
   components: {},

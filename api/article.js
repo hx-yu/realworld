@@ -1,6 +1,6 @@
 import request from '@/utils/request.js'
 
-export const getArticleList = (params = {}) => {
+export const getArticlesList = (params = {}) => {
     return request({
         url:'/api/articles',
         method:'GET',

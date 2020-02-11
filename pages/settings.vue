@@ -37,9 +37,10 @@
 
 <script>
 export default {
+  middleware: 'authenticated',
   name: "SettingsPage",
   data() {
-    return {};
+    return {}
   },
   props: {},
   components: {},

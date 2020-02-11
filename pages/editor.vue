@@ -33,9 +33,10 @@
 
 <script>
 export default {
+  middleware: 'authenticated',
   name: "EditorPage",
   data() {
-    return {};
+    return {}
   },
   props: {},
   components: {},

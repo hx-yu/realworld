@@ -9,15 +9,17 @@
           </p>
 
           <ul class="error-messages">
-            <li>That email is already taken</li>
+            <li v-for="(item,key,index) in errors" :key="index">
+              {{key}}:{{item[0]}}
+            </li>
           </ul>
 
-          <form>
+          <form @submit.prevent="onLogin">
             <fieldset class="form-group">
-              <input class="form-control form-control-lg" type="text" placeholder="Email" />
+              <input v-model="user.email" class="form-control form-control-lg" type="text" placeholder="Email" />
             </fieldset>
             <fieldset class="form-group">
-              <input class="form-control form-control-lg" type="password" placeholder="Password" />
+              <input v-model="user.password" class="form-control form-control-lg" type="password" placeholder="Password" />
             </fieldset>
             <button class="btn btn-lg btn-primary pull-xs-right">Sign in</button>
           </form>
@@ -28,15 +30,42 @@
 </template>
 
 <script>
+import { login } from '@/api/user.js'
+const Cookie = process.client ? require('js-cookie'):undefined
 export default {
+  middleware: 'notAuthenticated',
   name: "LoginPage",
+  asyncData() {
+    return {
+      user:{
+        email: '',
+        password: ''
+      },
+      errors:{}
+    }
+  },
   data() {
-    return {};
+    return {}
   },
   props: {},
   components: {},
   computed: {},
-  methods: {},
+  methods: {
+    async onLogin(){
+      const user = this.user
+      try {
+        const { data } = await login({
+          user
+        })
+        this.$store.commit('setUser',data.user)
+        this.errors = {}
+        Cookie.set('user',data.user)
+        this.$router.push('/') 
+      } catch (err) {
+        this.errors = err.response.data.errors
+      }
+    }
+  },
   watch: {},
   created() {},
   mounted() {}

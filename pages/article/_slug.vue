@@ -123,7 +123,7 @@
 export default {
   name: "ArticlePage",
   data() {
-    return {};
+    return {}
   },
   props: {},
   components: {},

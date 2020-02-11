@@ -21,7 +21,11 @@
             </ul>
           </div>
 
-          <div class="article-preview" v-for="(item,index) in articles" :key="index">
+          <div 
+            class="article-preview" 
+            v-for="(item,index) in articles" 
+            :key="index"
+          >
             <div class="article-meta">
               <a href="profile.html">
                 <img :src="item.author.image"/>
@@ -47,14 +51,11 @@
             <p>Popular Tags</p>
 
             <div class="tag-list">
-              <a href class="tag-pill tag-default">programming</a>
-              <a href class="tag-pill tag-default">javascript</a>
-              <a href class="tag-pill tag-default">emberjs</a>
-              <a href class="tag-pill tag-default">angularjs</a>
-              <a href class="tag-pill tag-default">react</a>
-              <a href class="tag-pill tag-default">mean</a>
-              <a href class="tag-pill tag-default">node</a>
-              <a href class="tag-pill tag-default">rails</a>
+              <a href 
+                class="tag-pill tag-default" 
+                v-for="(item,index) in tags" 
+                :key="index"
+              >{{item}}</a>
             </div>
           </div>
         </div>
@@ -64,17 +65,21 @@
 </template>
 
 <script>
-import { getArticleList } from '@/api/article.js'
+import { getArticlesList } from '@/api/article.js'
+import { getTagsList } from '@/api/tag.js'
 export default {
   name: "HomePage",
   async asyncData(){
-    const { data } = await getArticleList()
+    // const { data } = await getArticlesList()
+    // const { data:tagList } = await getTagsList()
+    const [articles,tags] = await Promise.all([getArticlesList(),getTagsList()])
     return {
-      articles: data.articles
+      articles: articles.data.articles,
+      tags: tags.data.tags
     }
   },
   data() {
-    return {};
+    return {}
   },
   props: {},
   components: {},
