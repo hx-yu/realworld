@@ -16,3 +16,10 @@ export const createArticle = data => {
         data
     })
 }
+
+export const getArticle = slug => {
+    return request({
+        url:`/api/articles/${slug}`,
+        method:'GET'
+    })
+}
