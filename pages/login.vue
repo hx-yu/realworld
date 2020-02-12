@@ -60,7 +60,7 @@ export default {
         this.$store.commit('setUser',data.user)
         this.errors = {}
         Cookie.set('user',data.user)
-        this.$router.push('/') 
+        this.$router.replace('/') 
       } catch (err) {
         this.errors = err.response.data.errors
       }

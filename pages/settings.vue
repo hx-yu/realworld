@@ -30,7 +30,7 @@
             </fieldset>
           </form>
           <hr>
-          <button class="btn btn-outline-danger">
+          <button class="btn btn-outline-danger" @click="onLogout">
             Or click here to logout.
           </button>
         </div>
@@ -40,6 +40,7 @@
 </template>
 
 <script>
+const Cookie = process.client?require('js-cookie'):undefined
 export default {
   middleware: 'authenticated',
   name: "SettingsPage",
@@ -49,7 +50,13 @@ export default {
   props: {},
   components: {},
   computed: {},
-  methods: {},
+  methods: {
+    onLogout(){
+      Cookie.remove('user')
+      this.$store.commit('setUser',null)
+      this.$router.replace('/')
+    }
+  },
   watch: {},
   created() {},
   mounted() {}

@@ -61,7 +61,7 @@ export default {
           user
         })
         this.errors = {}
-        this.$router.push('/')
+        this.$router.replace('/')
       } catch (err) {
         this.errors = err.response.data.errors
       }
